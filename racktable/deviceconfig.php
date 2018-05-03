@@ -1285,6 +1285,12 @@ show vlan brief
 			$ret .= "show mac address-table dynamic\n";
 			break;
 		case 'getuptime':
+                        $ret .= "show ver | i uptime\n";
+                        break;
+                case 'getinterfaces':
+                        $ret .= "show interfaces\n";
+                        break;
+		case 'getuptime':
 			$ret .= "show ver | i uptime\n";
 			break;
 		case 'getinterfaces':
@@ -2805,6 +2811,7 @@ function ciscoReadInterfaceStatus ($text)
 				$portname = trim (substr ($line, 0, $name_field_borders['from']));
 				$portname = preg_replace ('/\s+.*/', '', $portname);
 				$portname = shortenIfName ($portname);
+				$name = substr ($line, $name_field_borders['from'], $name_field_borders['length']);
 				$rest = trim (substr ($line, $name_field_borders['from'] + $name_field_borders['length'] + 1));
 				$field_list = preg_split('/\s+/', $rest);
 				if (count ($field_list) < 4)
@@ -2818,6 +2825,7 @@ function ciscoReadInterfaceStatus ($text)
 					$status = 'disabled';
 				$result[$portname] = array
 				(
+					'name' => $name,
 					'status' => $status,
 					'speed' => $speed,
 					'duplex' => $duplex,
