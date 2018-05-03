@@ -2071,7 +2071,7 @@ function renderPortsInfo($object_id)
 		echo "<td valign='top' width='50%'>";
 		startPortlet('Link status');
 		echo "<table width='80%' class='widetable' cellspacing=0 cellpadding='5px' align='center'>";
-		echo '<tr><th>Port</th><th>&nbsp;</th><th>Link status</th><th>Link info</th></tr>';
+		echo '<tr><th>Port</th><th>&nbsp;</th><th>Name</th><th>Link status</th><th>Link info</th></tr>';
 		$statusmap = array
 		(
 			'up' => 'link up',
@@ -2086,6 +2086,7 @@ function renderPortsInfo($object_id)
 			$order = $nextorder[$order];
 			echo '<td>' . $pn . '</td>';
 			echo '<td>' . getImageHREF (array_fetch ($statusmap, $link['status'], '16x16t')) . '</td>';
+			echo '<td>' . $link['Name'] . '</td>';
 			echo '<td>' . $link['status'] . '</td>';
 			$info = '';
 			if (isset ($link['speed'])){
