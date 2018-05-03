@@ -2113,15 +2113,20 @@ function renderPortsInfo($object_id)
 		$rendered_macs = '';
 		$mac_count = 0;
 		$rendered_macs .= "<table width='80%' class='widetable' cellspacing=0 cellpadding='5px' align='center'>";
-		$rendered_macs .= '<tr><th>MAC address</th><th>VLAN</th><th>Port</th></tr>';
+		$rendered_macs .= '<tr><th>Vendor</th><th>MAC address</th><th>VLAN</th><th>Port</th></tr>';
 		$order = 'even';
+		$macoui = file('/opt/racktables/wwwroot/inc/macoui.txt');
 		foreach ($macList as $pn => $list)
 		{
 			$order = $nextorder[$order];
 			foreach ($list as $item)
 			{
 				++$mac_count;
-				$rendered_macs .= "<tr class='row_$order'>";
+				$formatted_mac = substr(strtoupper(preg_replace('~..(?!$)~', '\0:', str_replace(".", "", $item['mac']))),0, 8);
+                                $pattern="/^".$formatted_mac."/";
+                                $vendor = preg_grep($pattern, $macoui);
+                                $rendered_macs .= "<tr class='row_$order'>";
+                                $rendered_macs .= '<td style="font-family: monospace">' . preg_split('/\s+/',substr(current($vendor), 9), 2)[1] . '</td>';
 				$rendered_macs .= '<td style="font-family: monospace">' . $item['mac'] . '</td>';
 				$rendered_macs .= '<td>' . $item['vid'] . '</td>';
 				$rendered_macs .= '<td>' . $pn . '</td>';
