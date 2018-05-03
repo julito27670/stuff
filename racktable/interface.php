@@ -2086,7 +2086,7 @@ function renderPortsInfo($object_id)
 			$order = $nextorder[$order];
 			echo '<td>' . $pn . '</td>';
 			echo '<td>' . getImageHREF (array_fetch ($statusmap, $link['status'], '16x16t')) . '</td>';
-			echo '<td>' . $link['Name'] . '</td>';
+			echo '<td>' . $link['name'] . '</td>';
 			echo '<td>' . $link['status'] . '</td>';
 			$info = '';
 			if (isset ($link['speed'])){
