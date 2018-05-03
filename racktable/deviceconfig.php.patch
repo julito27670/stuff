@@ -1,0 +1,40 @@
+--- deviceconfig.ORIG.php
++++ deviceconfig.php
+@@ -397,7 +397,7 @@
+                $work['portconfig'][$port_name][] = array ('type' => 'line-header', 'line' => $line);
+
+                // save work, if it makes sense
+-               if (! isset ($work['switchports']) || ! in_array ($port_name, $work['switchports']))
++               if (! in_array ($port_name, $work['switchports']))
+                        $work['current']['mode'] = 'SKIP'; // skip not switched ports
+                else
+                {
+@@ -1284,6 +1284,12 @@
+                case 'getmaclist':
+                        $ret .= "show mac address-table dynamic\n";
+                        break;
++               case 'getuptime':
++                       $ret .= "show ver | i uptime\n";
++                       break;
++               case 'getinterfaces':
++                       $ret .= "show interfaces\n";
++                       break;
+                case 'getportmaclist':
+                        $ret .= "show mac address-table dynamic interface {$cmd['arg1']}\n";
+                        break;
+@@ -2799,6 +2805,7 @@
+                                $portname = trim (substr ($line, 0, $name_field_borders['from']));
+                                $portname = preg_replace ('/\s+.*/', '', $portname);
+                                $portname = shortenIfName ($portname);
++                               $name = substr ($line, $name_field_borders['from'], $name_field_borders['length']);
+                                $rest = trim (substr ($line, $name_field_borders['from'] + $name_field_borders['length'] + 1));
+                                $field_list = preg_split('/\s+/', $rest);
+                                if (count ($field_list) < 4)
+@@ -2812,6 +2819,7 @@
+                                        $status = 'disabled';
+                                $result[$portname] = array
+                                (
++                                       'name' => $name,
+                                        'status' => $status,
+                                        'speed' => $speed,
+                                        'duplex' => $duplex,
