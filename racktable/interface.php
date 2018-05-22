@@ -2113,7 +2113,7 @@ function renderPortsInfo($object_id)
 		$rendered_macs = '';
 		$mac_count = 0;
 		$rendered_macs .= "<table width='80%' class='widetable' cellspacing=0 cellpadding='5px' align='center'>";
-		$rendered_macs .= '<tr><th>Vendor</th><th>MAC address</th><th>VLAN</th><th>Port</th></tr>';
+		$rendered_macs .= '<tr><th>Port</th><th>Vendor</th><th>MAC address</th><th>VLAN</th></tr>';
 		$order = 'even';
 		$macoui = file('/opt/racktables/wwwroot/inc/macoui.txt');
 		foreach ($macList as $pn => $list)
@@ -2126,10 +2126,10 @@ function renderPortsInfo($object_id)
                                 $pattern="/^".$formatted_mac."/";
                                 $vendor = preg_grep($pattern, $macoui);
                                 $rendered_macs .= "<tr class='row_$order'>";
+				$rendered_macs .= '<td>' . $pn . '</td>';
                                 $rendered_macs .= '<td style="font-family: monospace">' . preg_split('/\s+/',substr(current($vendor), 9), 2)[1] . '</td>';
 				$rendered_macs .= '<td style="font-family: monospace">' . $item['mac'] . '</td>';
 				$rendered_macs .= '<td>' . $item['vid'] . '</td>';
-				$rendered_macs .= '<td>' . $pn . '</td>';
 				$rendered_macs .= '</tr>';
 			}
 		}
